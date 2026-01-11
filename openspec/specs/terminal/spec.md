@@ -1,80 +1,80 @@
-# Terminal Log Specification
+# 终端日志规范
 
-## Overview
-The terminal log feature provides a console-like interface to display system events, command executions, and status updates. It serves as a debugging tool and provides transparency into the system's operations for users.
+## 概述
+终端日志功能提供一个类似控制台的界面，用于显示系统事件、命令执行和状态更新。它作为调试工具，为用户提供系统操作的透明度。
 
-## Requirements
+## 需求
 
-### Requirement: Log Structure
-The system SHALL define a structured format for terminal log entries.
+### 需求：日志结构
+系统应定义终端日志条目的结构化格式。
 
-#### Scenario: Log Creation
-- **WHEN** a system event occurs
-- **THEN** the system SHALL create a log entry with ID, timestamp, message, and type
-- **AND** add it to the terminal log
+#### 场景：日志创建
+- **WHEN** 系统事件发生
+- **THEN** 系统应创建带有 ID、时间戳、消息和类型的日志条目
+- **AND** 将其添加到终端日志
 
-#### Scenario: Log Display
-- **WHEN** log entries are added
-- **THEN** the system SHALL display them in the terminal component
-- **AND** automatically scroll to the bottom
+#### 场景：日志显示
+- **WHEN** 添加日志条目
+- **THEN** 系统应在终端组件中显示它们
+- **AND** 自动滚动到底部
 
-### Requirement: Log Types
-The system SHALL support different types of log entries for proper visualization.
+### 需求：日志类型
+系统应支持不同类型的日志条目以进行适当的可视化。
 
-#### Scenario: Info Messages
-- **WHEN** an informational event occurs
-- **THEN** the system SHALL create a log entry with type "info"
-- **AND** display it in the default text color
+#### 场景：信息消息
+- **WHEN** 发生信息性事件
+- **THEN** 系统应创建类型为 "info" 的日志条目
+- **AND** 以默认文本颜色显示它
 
-#### Scenario: Success Messages
-- **WHEN** a successful operation occurs
-- **THEN** the system SHALL create a log entry with type "success"
-- **AND** display it in green text
+#### 场景：成功消息
+- **WHEN** 发生成功操作
+- **THEN** 系统应创建类型为 "success" 的日志条目
+- **AND** 以绿色文本显示它
 
-#### Scenario: Warning Messages
-- **WHEN** a warning event occurs
-- **THEN** the system SHALL create a log entry with type "warning"
-- **AND** display it in yellow text
+#### 场景：警告消息
+- **WHEN** 发生警告事件
+- **THEN** 系统应创建类型为 "warning" 的日志条目
+- **AND** 以黄色文本显示它
 
-#### Scenario: Error Messages
-- **WHEN** an error event occurs
-- **THEN** the system SHALL create a log entry with type "error"
-- **AND** display it in red text
+#### 场景：错误消息
+- **WHEN** 发生错误事件
+- **THEN** 系统应创建类型为 "error" 的日志条目
+- **AND** 以红色文本显示它
 
-#### Scenario: Command Messages
-- **WHEN** a command is executed
-- **THEN** the system SHALL create a log entry with type "command"
-- **AND** display it in blue text with a $ prefix
+#### 场景：命令消息
+- **WHEN** 执行命令
+- **THEN** 系统应创建类型为 "command" 的日志条目
+- **AND** 以蓝色文本显示它，并带有 $ 前缀
 
-### Requirement: Enhanced Terminal Features
-The system SHALL provide enhanced terminal capabilities to improve user experience and debugging efficiency.
+### 需求：增强终端功能
+系统应提供增强的终端功能，以提高用户体验和调试效率。
 
-#### Scenario: Log Filtering
-- **WHEN** the user applies a filter
-- **THEN** the system SHALL display only log entries matching the filter criteria
-- **AND** update the display accordingly
+#### 场景：日志过滤
+- **WHEN** 用户应用过滤器
+- **THEN** 系统应仅显示匹配过滤条件的日志条目
+- **AND** 相应更新显示
 
-#### Scenario: Log Export
-- **WHEN** the user requests to export logs
-- **THEN** the system SHALL generate a text file with all log entries
-- **AND** prompt the user to save it
+#### 场景：日志导出
+- **WHEN** 用户请求导出日志
+- **THEN** 系统应生成包含所有日志条目的文本文件
+- **AND** 提示用户保存它
 
-#### Scenario: Log Search
-- **WHEN** the user enters a search term
-- **THEN** the system SHALL highlight log entries containing the search term
-- **AND** allow navigating between matches
+#### 场景：日志搜索
+- **WHEN** 用户输入搜索词
+- **THEN** 系统应突出显示包含搜索词的日志条目
+- **AND** 允许在匹配项之间导航
 
-#### Scenario: Log Level Control
-- **WHEN** the user adjusts log level settings
-- **THEN** the system SHALL display only log entries at or above the selected level
-- **AND** update the display accordingly
+#### 场景：日志级别控制
+- **WHEN** 用户调整日志级别设置
+- **THEN** 系统应仅显示等于或高于选定级别的日志条目
+- **AND** 相应更新显示
 
-#### Scenario: Log Persistence
-- **WHEN** important events occur
-- **THEN** the system SHALL save critical logs to the local file system
-- **AND** allow users to access them later
+#### 场景：日志持久化
+- **WHEN** 发生重要事件
+- **THEN** 系统应将关键日志保存到本地文件系统
+- **AND** 允许用户稍后访问它们
 
-## Data Structures
+## 数据结构
 
 ### TerminalLogEntry
 ```typescript
@@ -86,30 +86,35 @@ interface TerminalLogEntry {
 }
 ```
 
-## Implementation Notes
+## 实现注意事项
 
-### Log Management
-- The system should implement a log management strategy to prevent excessive memory usage:
-  - Limit the number of in-memory log entries
-  - Implement log rotation for persisted logs
-  - Provide options to clear the log
+### Tauri 兼容性
+- 在 Tauri 环境中实现终端日志功能
+- 考虑使用 Tauri 的文件系统 API 进行日志持久化
+- 确保终端组件在 Tauri 窗口中正确渲染
 
-### Performance Considerations
-- Adding many log entries can impact performance, so the implementation should:
-  - Use virtualized rendering for large log lists
-  - Batch log updates when possible
-  - Optimize DOM updates
+### 日志管理
+- 系统应实现日志管理策略以防止过度内存使用：
+  - 限制内存中日志条目的数量
+  - 为持久化日志实现日志轮换
+  - 提供清除日志的选项
 
-### User Experience
-- The terminal should provide a familiar console-like experience:
-  - Monospace font for all log entries
-  - Consistent coloring for different log types
-  - Clear timestamp formatting
-  - Easy copying of log content
+### 性能考虑
+- 添加许多日志条目可能影响性能，因此实现应：
+  - 对大型日志列表使用虚拟渲染
+  - 尽可能批量更新日志
+  - 优化 DOM 更新
 
-### Integration with Other Features
-- The terminal log should be integrated with all other features:
-  - Disk scanning operations
-  - AI analysis requests and responses
-  - Migration command executions
-  - Error handling and recovery operations
+### 用户体验
+- 终端应提供熟悉的控制台式体验：
+  - 所有日志条目的等宽字体
+  - 不同日志类型的一致着色
+  - 清晰的时间戳格式
+  - 易于复制日志内容
+
+### 与其他功能集成
+- 终端日志应与所有其他功能集成：
+  - 磁盘扫描操作
+  - AI 分析请求和响应
+  - 迁移命令执行
+  - 错误处理和恢复操作

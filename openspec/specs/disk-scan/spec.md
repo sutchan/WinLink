@@ -1,75 +1,75 @@
-# Disk Scan Specification
+# 磁盘扫描规范
 
-## Overview
-The disk scan feature is responsible for detecting and analyzing disks and applications on the system. It provides the foundation for all other features by identifying potential migration candidates and gathering necessary information about disk usage and application data.
+## 概述
+磁盘扫描功能负责检测和分析系统上的磁盘和应用程序。它通过识别潜在的迁移候选者并收集有关磁盘使用情况和应用程序数据的必要信息，为所有其他功能提供基础。
 
-## Requirements
+## 需求
 
-### Requirement: Disk Detection
-The system SHALL detect all available disks on the system and display them to the user.
+### 需求：磁盘检测
+系统应检测系统上的所有可用磁盘并向用户显示它们。
 
-#### Scenario: System Startup
-- **WHEN** the application starts
-- **THEN** the system SHALL scan for all available disks
-- **AND** display them in the disk selection interface
+#### 场景：系统启动
+- **WHEN** 应用程序启动
+- **THEN** 系统应扫描所有可用磁盘
+- **AND** 在磁盘选择界面中显示它们
 
-#### Scenario: Disk Selection Change
-- **WHEN** the user selects a different disk
-- **THEN** the system SHALL trigger a new scan for applications on that disk
-- **AND** reset the selected application status
+#### 场景：磁盘选择更改
+- **WHEN** 用户选择不同的磁盘
+- **THEN** 系统应触发对该磁盘上应用程序的新扫描
+- **AND** 重置所选应用程序状态
 
-### Requirement: Application Scanning
-The system SHALL scan the selected disk for applications and their associated data folders.
+### 需求：应用程序扫描
+系统应扫描所选磁盘以查找应用程序及其关联的数据文件夹。
 
-#### Scenario: Application Detection
-- **WHEN** a disk is selected
-- **THEN** the system SHALL scan the disk for application data folders
-- **AND** display them in the application list
+#### 场景：应用程序检测
+- **WHEN** 选择磁盘
+- **THEN** 系统应扫描磁盘以查找应用程序数据文件夹
+- **AND** 在应用程序列表中显示它们
 
-#### Scenario: Scan Animation
-- **WHEN** a disk scan is in progress
-- **THEN** the system SHALL display a scan animation to indicate activity
+#### 场景：扫描动画
+- **WHEN** 磁盘扫描进行中
+- **THEN** 系统应显示扫描动画以指示活动
 
-### Requirement: Application Information Gathering
-The system SHALL gather and display relevant information about each detected application.
+### 需求：应用程序信息收集
+系统应收集并显示有关每个检测到的应用程序的相关信息。
 
-#### Scenario: Application Details
-- **WHEN** an application is detected
-- **THEN** the system SHALL collect information including name, size, and path
-- **AND** display this information in the application card
+#### 场景：应用程序详情
+- **WHEN** 检测到应用程序
+- **THEN** 系统应收集包括名称、大小和路径的信息
+- **AND** 在应用程序卡片中显示此信息
 
-#### Scenario: Disk Space Calculation
-- **WHEN** scanning is complete
-- **THEN** the system SHALL calculate and display total disk usage
-- **AND** available free space
+#### 场景：磁盘空间计算
+- **WHEN** 扫描完成
+- **THEN** 系统应计算并显示总磁盘使用情况
+- **AND** 可用空闲空间
 
-### Requirement: Enhanced Scanning Features
-The system SHALL provide enhanced scanning capabilities to improve user experience and efficiency.
+### 需求：增强扫描功能
+系统应提供增强的扫描功能，以提高用户体验和效率。
 
-#### Scenario: Intelligent Sorting
-- **WHEN** applications are displayed
-- **THEN** the system SHALL allow sorting by size, name, or type
+#### 场景：智能排序
+- **WHEN** 显示应用程序
+- **THEN** 系统应允许按大小、名称或类型排序
 
-#### Scenario: Filtering Options
-- **WHEN** the user applies filters
-- **THEN** the system SHALL display only applications matching the filter criteria
-- **AND** update the display accordingly
+#### 场景：过滤选项
+- **WHEN** 用户应用过滤器
+- **THEN** 系统应仅显示匹配过滤条件的应用程序
+- **AND** 相应更新显示
 
-#### Scenario: File Type Analysis
-- **WHEN** scanning applications
-- **THEN** the system SHALL analyze file types within each application folder
-- **AND** display the distribution of file types
+#### 场景：文件类型分析
+- **WHEN** 扫描应用程序
+- **THEN** 系统应分析每个应用程序文件夹中的文件类型
+- **AND** 显示文件类型分布
 
-#### Scenario: Disk Space Warning
-- **WHEN** disk space is low
-- **THEN** the system SHALL display a warning to the user
-- **AND** suggest appropriate actions
+#### 场景：磁盘空间警告
+- **WHEN** 磁盘空间不足
+- **THEN** 系统应向用户显示警告
+- **AND** 建议适当的操作
 
-#### Scenario: Scan Progress Indication
-- **WHEN** scanning large disks
-- **THEN** the system SHALL display a progress bar indicating scan completion percentage
+#### 场景：扫描进度指示
+- **WHEN** 扫描大型磁盘
+- **THEN** 系统应显示指示扫描完成百分比的进度条
 
-## Data Structures
+## 数据结构
 
 ### DiskInfo
 ```typescript
@@ -95,21 +95,30 @@ interface AppFolder {
 }
 ```
 
-## Implementation Notes
+## 实现注意事项
 
-### Scanning Performance
-- Scanning large disks can be time-consuming, so the implementation should:
-  - Use asynchronous operations to avoid blocking the UI
-  - Implement caching to avoid repeated scans
-  - Provide progress updates for better user feedback
+### Tauri 兼容性
+- 使用 Tauri 的文件系统 API 进行磁盘扫描
+- 考虑 Rust 后端的性能优势，特别是对于大型磁盘扫描
+- 确保前端和后端之间的数据传输高效
 
-### Mock Data
-- For web POC purposes, the system uses mock data from constants.ts
-- In production, this should be replaced with real disk scanning using Node.js fs module or Tauri Rust backend
+### 扫描性能
+- 扫描大型磁盘可能耗时，因此实现应：
+  - 使用异步操作避免阻塞 UI
+  - 实现缓存以避免重复扫描
+  - 提供进度更新以获得更好的用户反馈
 
-### Error Handling
-- The system should handle various error scenarios during scanning:
-  - Access denied errors
-  - Disk not ready errors
-  - Network drive timeouts
-  - Provide clear error messages to the user
+### Mock 数据
+- 对于 Web POC，系统使用 constants.ts 中的模拟数据
+- 在 Tauri 实现中，应替换为使用 Tauri 文件系统 API 扫描真实磁盘
+
+### 错误处理
+- 系统应处理扫描期间的各种错误场景：
+  - 访问被拒绝错误
+  - 磁盘未就绪错误
+  - 网络驱动器超时
+  - 向用户提供清晰的错误消息
+
+### 权限考虑
+- 某些应用程序文件夹可能需要管理员权限才能访问
+- 实现应妥善处理权限问题，并在需要时请求适当的权限

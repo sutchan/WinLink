@@ -1,90 +1,90 @@
-# Migration Specification
+# 迁移规范
 
-## Overview
-The migration feature is responsible for moving application data from the system disk to another partition and creating junction links to maintain path accessibility. It handles the entire migration process, including directory creation, file copying, and junction link creation.
+## 概述
+迁移功能负责将应用程序数据从系统盘移动到其他分区，并创建 junction 链接以保持路径访问性。它处理整个迁移过程，包括目录创建、文件复制和 junction 链接创建。
 
-## Requirements
+## 需求
 
-### Requirement: Migration Process
-The system SHALL execute a series of steps to migrate application data and create junction links.
+### 需求：迁移过程
+系统应执行一系列步骤来迁移应用程序数据并创建 junction 链接。
 
-#### Scenario: Migration Initiation
-- **WHEN** the user starts the migration process
-- **THEN** the system SHALL change the application status to "移动" (Moving)
-- **AND** begin executing the migration steps
+#### 场景：迁移启动
+- **WHEN** 用户启动迁移过程
+- **THEN** 系统应将应用程序状态更改为 "移动" (Moving)
+- **AND** 开始执行迁移步骤
 
-#### Scenario: Directory Creation
-- **WHEN** the migration process starts
-- **THEN** the system SHALL create the target directory if it doesn't exist
-- **AND** update the migration step to "MKDIR"
+#### 场景：目录创建
+- **WHEN** 迁移过程开始
+- **THEN** 系统应在目标位置不存在时创建目录
+- **AND** 将迁移步骤更新为 "MKDIR"
 
-#### Scenario: File Copying
-- **WHEN** the directory is created
-- **THEN** the system SHALL copy the file data using robocopy
-- **AND** update the migration step to "机器人复制" (Robocopy)
+#### 场景：文件复制
+- **WHEN** 目录创建完成
+- **THEN** 系统应使用 robocopy 复制文件数据
+- **AND** 将迁移步骤更新为 "机器人复制" (Robocopy)
 
-#### Scenario: Junction Creation
-- **WHEN** file copying is complete
-- **THEN** the system SHALL create a junction link using mklink
-- **AND** update the migration step to "MKLINK"
+#### 场景：Junction 创建
+- **WHEN** 文件复制完成
+- **THEN** 系统应使用 mklink 创建 junction 链接
+- **AND** 将迁移步骤更新为 "MKLINK"
 
-#### Scenario: Migration Completion
-- **WHEN** all steps are complete
-- **THEN** the system SHALL change the application status to "已移动" (Moved)
-- **AND** update the migration step to "完毕" (Completed)
+#### 场景：迁移完成
+- **WHEN** 所有步骤完成
+- **THEN** 系统应将应用程序状态更改为 "已移动" (Moved)
+- **AND** 将迁移步骤更新为 "完毕" (Completed)
 
-### Requirement: Command Execution
-The system SHALL execute the appropriate Windows commands for each migration step.
+### 需求：命令执行
+系统应执行每个迁移步骤的适当 Windows 命令。
 
-#### Scenario: MkDir Command
-- **WHEN** creating the target directory
-- **THEN** the system SHALL execute `mkdir "Target\Path"`
-- **AND** log the command in the terminal
+#### 场景：MkDir 命令
+- **WHEN** 创建目标目录
+- **THEN** 系统应执行 `mkdir "Target\Path"`
+- **AND** 在终端中记录命令
 
-#### Scenario: Robocopy Command
-- **WHEN** copying files
-- **THEN** the system SHALL execute `robocopy "源" "目标" /E /COPYALL /MOVE`
-- **AND** log the command in the terminal
+#### 场景：Robocopy 命令
+- **WHEN** 复制文件
+- **THEN** 系统应执行 `robocopy "源" "目标" /E /COPYALL /MOVE`
+- **AND** 在终端中记录命令
 
-#### Scenario: MkLink Command
-- **WHEN** creating the junction link
-- **THEN** the system SHALL execute `mklink /J "源" "目标"`
-- **AND** log the command in the terminal
+#### 场景：MkLink 命令
+- **WHEN** 创建 junction 链接
+- **THEN** 系统应执行 `mklink /J "源" "目标"`
+- **AND** 在终端中记录命令
 
-### Requirement: Enhanced Migration Features
-The system SHALL provide enhanced migration capabilities to improve user experience and reliability.
+### 需求：增强迁移功能
+系统应提供增强的迁移功能，以提高用户体验和可靠性。
 
-#### Scenario: Resume Migration
-- **WHEN** the migration process is interrupted
-- **THEN** the system SHALL allow resuming the migration from the point of interruption
-- **AND** display the current progress
+#### 场景：恢复迁移
+- **WHEN** 迁移过程中断
+- **THEN** 系统应允许从中断点继续迁移
+- **AND** 显示当前进度
 
-#### Scenario: Parallel Migration
-- **WHEN** multiple applications are selected
-- **THEN** the system SHALL allow simultaneous migration of multiple applications
-- **AND** display progress for each
+#### 场景：并行迁移
+- **WHEN** 选择多个应用程序
+- **THEN** 系统应允许同时迁移多个应用程序
+- **AND** 显示每个应用程序的进度
 
-#### Scenario: Migration Rollback
-- **WHEN** an error occurs during migration
-- **THEN** the system SHALL automatically roll back to the original state
-- **AND** display an error message
+#### 场景：迁移回滚
+- **WHEN** 迁移过程中发生错误
+- **THEN** 系统应自动回滚到原始状态
+- **AND** 显示错误消息
 
-#### Scenario: Pre-Migration Check
-- **WHEN** the user initiates migration
-- **THEN** the system SHALL check target disk space and permissions
-- **AND** abort with an error if checks fail
+#### 场景：迁移前检查
+- **WHEN** 用户启动迁移
+- **THEN** 系统应检查目标磁盘空间和权限
+- **AND** 如果检查失败则中止并显示错误
 
-#### Scenario: Migration Plan
-- **WHEN** the user configures migration settings
-- **THEN** the system SHALL allow creating and saving migration plans
-- **AND** executing them later
+#### 场景：迁移计划
+- **WHEN** 用户配置迁移设置
+- **THEN** 系统应允许创建和保存迁移计划
+- **AND** 稍后执行
 
-#### Scenario: Incremental Migration
-- **WHEN** migrating an application that was previously migrated
-- **THEN** the system SHALL only migrate modified files
-- **AND** skip unchanged files
+#### 场景：增量迁移
+- **WHEN** 迁移之前已迁移的应用程序
+- **THEN** 系统应只迁移修改过的文件
+- **AND** 跳过未更改的文件
 
-## Data Structures
+## 数据结构
 
 ### MigrationConfig
 ```typescript
@@ -96,7 +96,7 @@ interface MigrationConfig {
 }
 ```
 
-### AppFolder (with migration fields)
+### AppFolder (带迁移字段)
 ```typescript
 interface AppFolder {
   id: string;
@@ -113,36 +113,35 @@ interface AppFolder {
 }
 ```
 
-## Implementation Notes
+## 实现注意事项
 
-### Web POC vs Native Implementation
-- In the web POC, the system simulates Windows commands with timeouts
-- In native implementations (Electron/Tauri), the system shall execute real Windows commands
+### Web POC 与原生实现
+- 在 Web POC 中，系统使用超时模拟 Windows 命令
+- 在原生实现 (Tauri) 中，系统应执行真实的 Windows 命令
 
-### Command Execution
-- For Electron: Use `child_process.spawn` to execute commands
-- For Tauri: Use the `command` API to execute commands
-- Both implementations need to handle UAC (administrator privileges) for mklink
+### 命令执行
+- 对于 Tauri: 使用 `command` API 执行命令
+- 需要处理 UAC (管理员权限) 以创建 junction
 
-### Performance Considerations
-- File copying can be time-consuming, so the implementation should:
-  - Use asynchronous operations
-  - Display progress updates
-  - Consider using multi-threading for large migrations
+### 性能考虑
+- 文件复制可能耗时，因此实现应：
+  - 使用异步操作
+  - 显示进度更新
+  - 考虑对大型迁移使用多线程
 
-### Error Handling
-- The system should handle various error scenarios:
-  - Insufficient disk space
-  - Permission denied errors
-  - File locking issues
-  - Network drive disconnections
+### 错误处理
+- 系统应处理各种错误场景：
+  - 磁盘空间不足
+  - 权限被拒绝错误
+  - 文件锁定问题
+  - 网络驱动器断开连接
 
-### Safety Considerations
-- Always create backups before modifying system files
-- Implement rollback mechanisms for error recovery
-- Verify data integrity after migration
+### 安全考虑
+- 在修改系统文件之前始终创建备份
+- 实现错误恢复的回滚机制
+- 迁移后验证数据完整性
 
-### Testing Considerations
-- Test with various application sizes and types
-- Test error recovery scenarios
-- Test on different Windows versions
+### 测试考虑
+- 使用各种应用程序大小和类型进行测试
+- 测试错误恢复场景
+- 在不同 Windows 版本上测试

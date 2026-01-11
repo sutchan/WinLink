@@ -1,56 +1,157 @@
-# UI/UX Specification
+# UI/UX 规范
 
-## Overview
-The UI/UX design specification defines the visual style, interaction patterns, and user experience guidelines for the WinLink Migrator application. It ensures a consistent, intuitive, and accessible interface across all features.
+## 概述
+UI/UX 设计规范定义了 WinLink Migrator 应用程序的视觉风格、交互模式和用户体验指南。它确保在所有功能中保持一致、直观和可访问的界面。
 
-## Requirements
+## 需求
 
-### Requirement: Visual Style
-The system SHALL implement a consistent visual style based on dark mode design principles.
+### 需求：视觉风格
+系统应基于深色模式设计原则实现一致的视觉风格。
 
-#### Scenario: Dark Mode Theme
-- **WHEN** the application starts
-- **THEN** the system SHALL display the dark mode theme with bg-slate-950 background
-- **AND** use blue accents for interactive elements
+#### 场景：深色模式主题
+- **WHEN** 应用程序启动
+- **THEN** 系统应显示深色模式主题，背景色为 bg-slate-950
+- **AND** 对交互元素使用蓝色强调
 
-#### Scenario: Color Scheme
-- **WHEN** rendering UI elements
-- **THEN** the system SHALL use blue-500/blue-600 for emphasis and action buttons
-- **AND** maintain consistent color usage throughout the application
+#### 场景：色彩方案
+- **WHEN** 渲染 UI 元素
+- **THEN** 系统应使用 blue-500/blue-600 进行强调和操作按钮
+- **AND** 在整个应用程序中保持一致的色彩使用
 
-#### Scenario: Typography
-- **WHEN** displaying text
-- **THEN** the system SHALL use sans-serif fonts for general text
-- **AND** monospace fonts for code, paths, and terminal logs
+#### 场景：排版
+- **WHEN** 显示文本
+- **THEN** 系统应使用无衬线字体作为一般文本
+- **AND** 等宽字体用于代码、路径和终端日志
 
-### Requirement: Window Simulation
-The system SHALL implement a Windows-style window interface with custom controls.
+### 需求：窗口模拟
+系统应实现带有自定义控件的 Windows 风格窗口界面。
 
-#### Scenario: Custom Title Bar
-- **WHEN** the application is displayed
-- **THEN** the system SHALL show a custom Windows-style title bar
-- **AND** include a draggable region and window control buttons
+#### 场景：自定义标题栏
+- **WHEN** 应用程序显示
+- **THEN** 系统应显示自定义 Windows 风格标题栏
+- **AND** 包含可拖动区域和窗口控制按钮
 
-#### Scenario: Custom Scrollbars
-- **WHEN** content exceeds viewport
-- **THEN** the system SHALL display custom CSS Webkit scrollbars
-- **AND** style them to match the dark mode theme
+#### 场景：自定义滚动条
+- **WHEN** 内容超出视口
+- **THEN** 系统应显示自定义 CSS Webkit 滚动条
+- **AND** 将它们样式化为匹配深色模式主题
 
-### Requirement: Internationalization
-The system SHALL support multiple languages and provide a mechanism for switching between them.
+### 需求：国际化
+系统应支持多种语言并提供在它们之间切换的机制。
 
-#### Scenario: Language Selection
-- **WHEN** the user changes language settings
-- **THEN** the system SHALL update the interface to display the selected language
-- **AND** persist the language preference
+#### 场景：语言选择
+- **WHEN** 用户更改语言设置
+- **THEN** 系统应更新界面以显示选定的语言
+- **AND** 持久化语言首选项
 
-#### Scenario: Text Translation
-- **WHEN** rendering UI elements
-- **THEN** the system SHALL display text in the currently selected language
-- **AND** use translations from the translations.ts file
+#### 场景：文本翻译
+- **WHEN** 渲染 UI 元素
+- **THEN** 系统应以当前选定的语言显示文本
+- **AND** 使用 translations.ts 文件中的翻译
 
-### Requirement: Interaction Feedback
-The system SHALL provide clear and immediate feedback for user interactions and system operations.
+### 需求：交互反馈
+系统应为用户交互和系统操作提供清晰和即时的反馈。
 
-#### Scenario: Card Status Visualization
-- **
+#### 场景：卡片状态可视化
+- **WHEN** 应用程序状态更改
+- **THEN** 系统应更新 AppCard 的边框颜色以反映状态
+- **AND** 显示适当的状态指示器
+
+#### 场景：进度可视化
+- **WHEN** 迁移进行中
+- **THEN** 系统应显示详细的 Checkbox 进度条
+- **AND** 随着每个步骤完成而更新它
+
+### 需求：增强 UI/UX 功能
+系统应提供增强的 UI/UX 功能，以提高用户体验和可访问性。
+
+#### 场景：动态主题切换
+- **WHEN** 系统主题更改
+- **THEN** 应用程序应自动在浅色和深色模式之间切换
+- **AND** 跟随系统设置
+
+#### 场景：窗口大小记忆
+- **WHEN** 用户调整应用程序窗口大小
+- **THEN** 系统应记住窗口大小和位置
+- **AND** 在下次启动时恢复它
+
+#### 场景：多窗口支持
+- **WHEN** 用户打开多个窗口
+- **THEN** 系统应允许每个窗口独立操作
+- **AND** 为每个窗口维护单独的状态
+
+#### 场景：托盘图标集成
+- **WHEN** 应用程序运行
+- **THEN** 系统应在系统托盘中显示图标
+- **AND** 提供对应用程序功能的快速访问
+
+#### 场景：语言自动检测
+- **WHEN** 应用程序首次启动
+- **THEN** 系统应检测系统语言
+- **AND** 自动选择相应的界面语言
+
+#### 场景：RTL 语言支持
+- **WHEN** 选择 RTL 语言
+- **THEN** 系统应将界面布局调整为 RTL
+- **AND** 保持正确的文本对齐
+
+#### 场景：动画效果
+- **WHEN** UI 元素更改状态
+- **THEN** 系统应应用平滑的过渡动画
+- **AND** 保持响应式感觉
+
+#### 场景：声音反馈
+- **WHEN** 重要操作完成
+- **THEN** 系统应提供可选的声音反馈
+- **AND** 允许用户启用/禁用此功能
+
+#### 场景：上下文帮助
+- **WHEN** 用户悬停在 UI 元素上
+- **THEN** 系统应显示上下文帮助工具提示
+- **AND** 为复杂功能提供指导
+
+#### 场景：键盘快捷键
+- **WHEN** 用户按下键盘组合
+- **THEN** 系统应执行相应的命令
+- **AND** 在适当的位置显示快捷键提示
+
+## 实现注意事项
+
+### Tauri 兼容性
+- 在 Tauri 环境中实现窗口管理和系统集成
+- 考虑 Tauri 的窗口 API 进行窗口控制
+- 确保自定义标题栏在 Tauri 环境中正常工作
+
+### 响应式设计
+- 界面应设计为适应不同屏幕尺寸：
+  - 针对桌面显示器优化 (1920x1080+)
+  - 确保在较小的笔记本电脑屏幕上的可读性 (1366x768)
+  - 考虑混合设备的触摸界面
+
+### 可访问性
+- 应用程序应可访问残障用户：
+  - 遵循 WCAG 2.1 指南
+  - 确保适当的对比度比率
+  - 支持屏幕阅读器
+  - 为所有功能提供键盘导航
+
+### 性能优化
+- UI 渲染应针对响应性进行优化：
+  - 使用代码分割减少初始加载时间
+  - 对长列表实现虚拟化
+  - 优化动画以避免布局抖动
+  - 使用高效的状态管理以最小化重渲染
+
+### 一致性
+- 在整个应用程序中保持视觉和交互一致性：
+  - 使用一致的间距和大小
+  - 应用统一的交互模式
+  - 确保术语和标签的一致性
+  - 遵循 Windows 应用程序的平台约定
+
+### 用户测试
+- 进行用户测试以验证 UI/UX 决策：
+  - 与不同技术专业知识的用户测试
+  - 收集有关导航和工作流的反馈
+  - 识别并解决用户体验中的痛点
+  - 根据用户反馈迭代设计
