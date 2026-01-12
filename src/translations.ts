@@ -1,4 +1,84 @@
-const translations = {
+interface TranslationKeys {
+  apps: string;
+  analyzeSafety: string;
+  move: string;
+  status: string;
+  size: string;
+  path: string;
+  ready: string;
+  analyzing: string;
+  moving: string;
+  moved: string;
+  error: string;
+  paused: string;
+  verifying: string;
+  idle: string;
+  mkdir: string;
+  robocopy: string;
+  mklink: string;
+  completed: string;
+  cleaning: string;
+  safetyScore: string;
+  aiAnalysis: string;
+  progress: string;
+  terminal: string;
+  language: string;
+  chinese: string;
+  english: string;
+  winlinkMigrator: string;
+  systemDrive: string;
+  targetDrive: string;
+  selectDrive: string;
+  migrate: string;
+  cancel: string;
+  confirm: string;
+  back: string;
+  next: string;
+  finish: string;
+  success: string;
+  warning: string;
+  info: string;
+  danger: string;
+  folder: string;
+  file: string;
+  files: string;
+  folders: string;
+  totalSize: string;
+  freeSpace: string;
+  usedSpace: string;
+  scan: string;
+  scanning: string;
+  scanComplete: string;
+  noAppsFound: string;
+  noDisksFound: string;
+  noLogsFound: string;
+  migrateTo: string;
+  selectApps: string;
+  selectedApps: string;
+  migrationSettings: string;
+  overwriteExisting: string;
+  createBackup: string;
+  verifyAfterMove: string;
+  parallelExecution: string;
+  migrationSummary: string;
+  startMigration: string;
+  migrationInProgress: string;
+  migrationComplete: string;
+  migrationFailed: string;
+  viewLogs: string;
+  close: string;
+  minimize: string;
+  maximize: string;
+  filter?: string;
+  clear?: string;
+  export?: string;
+  search?: string;
+  filterByType?: string;
+  sortBy?: string;
+  name?: string;
+}
+
+const translations: Record<'en' | 'zh', TranslationKeys> = {
   en: {
     apps: 'Applications',
     analyzeSafety: 'Analyze Safety',
@@ -52,6 +132,7 @@ const translations = {
     scanComplete: 'Scan Complete',
     noAppsFound: 'No applications found',
     noDisksFound: 'No disks found',
+    noLogsFound: 'No logs found',
     migrateTo: 'Migrate to',
     selectApps: 'Select Applications',
     selectedApps: 'Selected Applications',
@@ -68,7 +149,14 @@ const translations = {
     viewLogs: 'View Logs',
     close: 'Close',
     minimize: 'Minimize',
-    maximize: 'Maximize'
+    maximize: 'Maximize',
+    filter: 'Filter',
+    clear: 'Clear',
+    export: 'Export',
+    search: 'Search',
+    filterByType: 'Filter by Type',
+    sortBy: 'Sort by',
+    name: 'Name'
   },
   zh: {
     apps: '应用程序',
@@ -123,6 +211,7 @@ const translations = {
     scanComplete: '扫描完成',
     noAppsFound: '未找到应用程序',
     noDisksFound: '未找到磁盘',
+    noLogsFound: '未找到日志',
     migrateTo: '迁移到',
     selectApps: '选择应用程序',
     selectedApps: '已选择的应用程序',
@@ -139,10 +228,17 @@ const translations = {
     viewLogs: '查看日志',
     close: '关闭',
     minimize: '最小化',
-    maximize: '最大化'
+    maximize: '最大化',
+    filter: '筛选',
+    clear: '清空',
+    export: '导出',
+    search: '搜索',
+    filterByType: '按类型筛选',
+    sortBy: '排序方式',
+    name: '名称'
   }
 };
 
-export const translate = (key: string, language: 'en' | 'zh' = 'zh'): string => {
+export const translate = (key: keyof TranslationKeys, language: 'en' | 'zh' = 'zh'): string => {
   return translations[language][key] || key;
 };

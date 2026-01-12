@@ -1,7 +1,8 @@
 import React from 'react';
 import { TerminalLog } from './components/TerminalLog';
 import { AppCard } from './components/AppCard';
-import { AppFolder, AppStatus, DiskInfo, MigrationConfig } from './types';
+import { AppFolder, AppStatus, DiskInfo, MigrationConfig, MoveStep } from './types';
+
 import { translate } from './translations';
 import { scanDisks, scanApplications, sortApplications, filterApplications } from './services/diskService';
 import { analyzeFolderSafety } from './services/geminiService';
@@ -76,13 +77,14 @@ const App: React.FC = (): JSX.Element => {
   }, [selectedDisk]);
 
   const handleAnalyzeSafety = async (id: string): Promise<void> => {
-    const app = appFolders.find(a => a.id === id);
+    const app = appFolders.find((a: AppFolder) => a.id === id);
     if (!app) return;
 
     // 更新应用状态为分析中
-    setAppFolders(prev => prev.map(a => 
+    setAppFolders((prev: AppFolder[]) => prev.map((a: AppFolder) => 
       a.id === id ? { ...a, status: AppStatus.ANALYZING } : a
     ));
+
 
     try {
       // 调用 AI 分析服务
@@ -123,15 +125,15 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const handleAppSelection = (id: string): void => {
-    setSelectedApps(prev => 
+    setSelectedApps((prev: string[]) => 
       prev.includes(id) 
-        ? prev.filter(appId => appId !== id)
+        ? prev.filter((appId: string) => appId !== id)
         : [...prev, id]
     );
   };
 
   const handleMigrationConfigChange = (key: keyof MigrationConfig, value: boolean): void => {
-    setMigrationConfig(prev => ({
+    setMigrationConfig((prev: MigrationConfig) => ({
       ...prev,
       [key]: value
     }));
@@ -151,9 +153,9 @@ const App: React.FC = (): JSX.Element => {
         appsToMigrate,
         targetPath,
         migrationConfig,
-        (appId, progress) => {
+        (appId: string, progress: { step: MoveStep; progress: number }) => {
           // 更新应用状态和进度
-          setAppFolders(prev => prev.map(app => 
+          setAppFolders((prev: AppFolder[]) => prev.map((app: AppFolder) => 
             app.id === appId 
               ? {
                   ...app,
@@ -166,8 +168,8 @@ const App: React.FC = (): JSX.Element => {
 
           // 计算整体迁移进度
           const totalSteps = appsToMigrate.length * 3; // 假设每个应用有3个步骤
-          const completedSteps = appsToMigrate.reduce((acc, app) => {
-            const appProgress = appFolders.find(a => a.id === app.id);
+          const completedSteps = appsToMigrate.reduce((acc: number, app: AppFolder) => {
+            const appProgress = appFolders.find((a: AppFolder) => a.id === app.id);
             return acc + (appProgress?.progress || 0) / 100;
           }, 0);
           const overallProgress = Math.round((completedSteps / totalSteps) * 100);
@@ -176,10 +178,11 @@ const App: React.FC = (): JSX.Element => {
       );
 
       // 更新所有应用的最终状态
-      setAppFolders(prev => prev.map(app => {
-        const result = results.find(r => r.app.id === app.id);
+      setAppFolders((prev: AppFolder[]) => prev.map((app: AppFolder) => {
+        const result = results.find((r: { app: AppFolder }) => r.app.id === app.id);
         return result ? result.app : app;
       }));
+
     } catch (error) {
       console.error('迁移失败:', error);
     } finally {
@@ -192,19 +195,19 @@ const App: React.FC = (): JSX.Element => {
   const handleCancelMigration = (appId: string): void => {
     migrationService.cancelMigration(appId);
     // 更新应用状态
-    setAppFolders(prev => prev.map(app => 
+    setAppFolders((prev: AppFolder[]) => prev.map((app: AppFolder) => 
       app.id === appId ? { ...app, status: AppStatus.READY } : app
     ));
   };
 
   const handleRollbackMigration = async (appId: string): Promise<void> => {
-    const app = appFolders.find(a => a.id === appId);
+    const app = appFolders.find((a: AppFolder) => a.id === appId);
     if (!app) return;
 
     try {
-      const result = await migrationService.rollbackMigration(app, (progress) => {
+      const result = await migrationService.rollbackMigration(app, (progress: { step: MoveStep; progress: number }) => {
         // 更新应用状态和进度
-        setAppFolders(prev => prev.map(a => 
+        setAppFolders((prev: AppFolder[]) => prev.map((a: AppFolder) => 
           a.id === appId 
             ? {
                 ...a,
@@ -217,9 +220,10 @@ const App: React.FC = (): JSX.Element => {
       });
 
       // 更新应用最终状态
-      setAppFolders(prev => prev.map(a => 
+      setAppFolders((prev: AppFolder[]) => prev.map((a: AppFolder) => 
         a.id === appId ? result.app : a
       ));
+
     } catch (error) {
       console.error('回滚失败:', error);
     }
@@ -233,13 +237,14 @@ const App: React.FC = (): JSX.Element => {
   const handleSort = (newSortBy: 'name' | 'size' | 'status' | 'path'): void => {
     if (newSortBy === sortBy) {
       // 如果点击相同的排序字段，切换排序顺序
-      setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+      setSortOrder((prev: 'asc' | 'desc') => prev === 'asc' ? 'desc' : 'asc');
     } else {
       // 否则，设置新的排序字段并默认使用升序
       setSortBy(newSortBy);
       setSortOrder('asc');
     }
   };
+
 
   // 应用排序和过滤
   const filteredAndSortedApps = React.useMemo(() => {
@@ -326,14 +331,15 @@ const App: React.FC = (): JSX.Element => {
                 <select
                   className="dark:bg-slate-700 dark:border dark:border-slate-600 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
                   value={selectedDisk}
-                  onChange={(e) => setSelectedDisk(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedDisk(e.target.value)}
                   disabled={isScanning}
                 >
-                  {disks.map((disk) => (
+                  {disks.map((disk: { id: string; name: string; path: string; freeSpace: string }) => (
                     <option key={disk.id} value={disk.path}>
                       {disk.name} ({disk.path}) - {disk.freeSpace} 可用
                     </option>
                   ))}
+
                 </select>
               </div>
               
@@ -342,14 +348,15 @@ const App: React.FC = (): JSX.Element => {
                 <select
                   className="dark:bg-slate-700 dark:border dark:border-slate-600 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
                   value={targetDisk}
-                  onChange={(e) => setTargetDisk(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTargetDisk(e.target.value)}
                   disabled={isMigrating}
                 >
-                  {disks.filter(disk => disk.path !== selectedDisk).map((disk) => (
+                  {disks.filter((disk: { path: string }) => disk.path !== selectedDisk).map((disk: { id: string; name: string; path: string; freeSpace: string }) => (
                     <option key={disk.id} value={disk.path}>
                       {disk.name} ({disk.path}) - {disk.freeSpace} 可用
                     </option>
                   ))}
+
                 </select>
               </div>
             </div>

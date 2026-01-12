@@ -17,7 +17,8 @@ export enum MoveStep {
   MKLINK = "MKLINK",
   COMPLETED = "完毕",
   VERIFYING = "验证",
-  CLEANING = "清理"
+  CLEANING = "清理",
+  DONE = "done"
 }
 
 // 应用程序文件夹
@@ -33,6 +34,7 @@ export interface AppFolder {
   progress?: number; // 迁移进度百分比
   safetyScore?: number; // AI 评分 (0-100)
   aiAnalysis?: string;  // AI 分析建议
+  aiAnalysisResult?: AiAnalysisResult; // AI 分析结果
   errorMessage?: string; // 错误信息
   lastModified?: string; // 最后修改时间
   backupPath?: string; // 备份路径
