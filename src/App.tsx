@@ -270,18 +270,40 @@ const App: React.FC = (): JSX.Element => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <button
-              className={`px-2 py-1 rounded ${activeLanguage === 'zh' ? 'bg-primary-600' : 'bg-slate-700'}`}
+              className={`px-2 py-1 rounded ${activeLanguage === 'zh' ? 'bg-primary-600' : 'dark:bg-slate-700 bg-slate-200 dark:text-white text-slate-900'}`}
               onClick={() => setActiveLanguage('zh')}
             >
               中文
             </button>
             <button
-              className={`px-2 py-1 rounded ${activeLanguage === 'en' ? 'bg-primary-600' : 'bg-slate-700'}`}
+              className={`px-2 py-1 rounded ${activeLanguage === 'en' ? 'bg-primary-600' : 'dark:bg-slate-700 bg-slate-200 dark:text-white text-slate-900'}`}
               onClick={() => setActiveLanguage('en')}
             >
               English
             </button>
           </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              className={`px-2 py-1 rounded ${theme === 'dark' ? 'bg-primary-600' : 'dark:bg-slate-700 bg-slate-200 dark:text-white text-slate-900'}`}
+              onClick={() => handleThemeChange('dark')}
+            >
+              🌙
+            </button>
+            <button
+              className={`px-2 py-1 rounded ${theme === 'light' ? 'bg-primary-600' : 'dark:bg-slate-700 bg-slate-200 dark:text-white text-slate-900'}`}
+              onClick={() => handleThemeChange('light')}
+            >
+              ☀️
+            </button>
+            <button
+              className={`px-2 py-1 rounded ${theme === 'system' ? 'bg-primary-600' : 'dark:bg-slate-700 bg-slate-200 dark:text-white text-slate-900'}`}
+              onClick={() => handleThemeChange('system')}
+            >
+              📱
+            </button>
+          </div>
+          
           <div className="window-controls">
             <button className="window-control window-control-minimize">_</button>
             <button className="window-control window-control-maximize">□</button>
@@ -296,12 +318,12 @@ const App: React.FC = (): JSX.Element => {
         <div className="mb-6">
           <h2 className="text-2xl font-bold mb-4">{translate('winlinkMigrator', activeLanguage)}</h2>
           
-          <div className="bg-slate-800 rounded-lg p-4 mb-6">
+          <div className="dark:bg-slate-800 bg-white dark:border dark:border-slate-700 border border-slate-200 rounded-lg p-4 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">{translate('systemDrive', activeLanguage)}</label>
+                <label className="block text-sm font-medium mb-2 dark:text-white text-slate-900">{translate('systemDrive', activeLanguage)}</label>
                 <select
-                  className="bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
+                  className="dark:bg-slate-700 dark:border dark:border-slate-600 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
                   value={selectedDisk}
                   onChange={(e) => setSelectedDisk(e.target.value)}
                   disabled={isScanning}
@@ -315,9 +337,9 @@ const App: React.FC = (): JSX.Element => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2">{translate('targetDrive', activeLanguage)}</label>
+                <label className="block text-sm font-medium mb-2 dark:text-white text-slate-900">{translate('targetDrive', activeLanguage)}</label>
                 <select
-                  className="bg-slate-700 border border-slate-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
+                  className="dark:bg-slate-700 dark:border dark:border-slate-600 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full"
                   value={targetDisk}
                   onChange={(e) => setTargetDisk(e.target.value)}
                   disabled={isMigrating}
@@ -334,10 +356,10 @@ const App: React.FC = (): JSX.Element => {
             {isScanning && (
               <div className="mt-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm">{translate('scanning', activeLanguage)}...</span>
-                  <span className="text-sm font-mono">{scanProgress}%</span>
+                  <span className="text-sm dark:text-white text-slate-900">{translate('scanning', activeLanguage)}...</span>
+                  <span className="text-sm font-mono dark:text-white text-slate-900">{scanProgress}%</span>
                 </div>
-                <div className="w-full bg-slate-700 rounded-full h-2">
+                <div className="w-full dark:bg-slate-700 bg-slate-200 rounded-full h-2">
                   <div 
                     className="bg-primary-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${scanProgress}%` }}
@@ -349,10 +371,10 @@ const App: React.FC = (): JSX.Element => {
             {isMigrating && (
               <div className="mt-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm">{translate('migrationInProgress', activeLanguage)}...</span>
-                  <span className="text-sm font-mono">{migrationProgress}%</span>
+                  <span className="text-sm dark:text-white text-slate-900">{translate('migrationInProgress', activeLanguage)}...</span>
+                  <span className="text-sm font-mono dark:text-white text-slate-900">{migrationProgress}%</span>
                 </div>
-                <div className="w-full bg-slate-700 rounded-full h-2">
+                <div className="w-full dark:bg-slate-700 bg-slate-200 rounded-full h-2">
                   <div 
                     className="bg-primary-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${migrationProgress}%` }}
@@ -368,16 +390,16 @@ const App: React.FC = (): JSX.Element => {
               <input
                 type="text"
                 placeholder={`${translate('search', activeLanguage)}...`}
-                className="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full dark:bg-slate-800 dark:border dark:border-slate-700 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             
             <div className="flex items-center gap-2">
-              <span className="text-sm">{translate('sortBy', activeLanguage)}:</span>
+              <span className="text-sm dark:text-white text-slate-900">{translate('sortBy', activeLanguage)}:</span>
               <select
-                className="bg-slate-800 border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="dark:bg-slate-800 dark:border dark:border-slate-700 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 value={sortBy}
                 onChange={(e) => handleSort(e.target.value as 'name' | 'size' | 'status' | 'path')}
               >
@@ -387,7 +409,7 @@ const App: React.FC = (): JSX.Element => {
                 <option value="path">{translate('path', activeLanguage)}</option>
               </select>
               <button
-                className="bg-slate-800 border border-slate-700 rounded px-2 py-1"
+                className="dark:bg-slate-800 dark:border dark:border-slate-700 bg-white border border-slate-300 dark:text-white text-slate-900 rounded px-2 py-1"
                 onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
               >
                 {sortOrder === 'asc' ? '↑' : '↓'}

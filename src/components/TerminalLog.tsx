@@ -69,10 +69,14 @@ export const TerminalLog: React.FC<TerminalLogProps> = ({ language = 'zh' }): JS
   };
 
   const handleExportLogs = (format: 'text' | 'json') => {
-    logService.downloadLogs(format, {
-      types: selectedTypes.length > 0 ? selectedTypes : undefined,
-      searchTerm: searchTerm || undefined
-    });
+    const options: { types?: Array<'info' | 'success' | 'warning' | 'error' | 'command'>; searchTerm?: string } = {};
+    if (selectedTypes.length > 0) {
+      options.types = selectedTypes;
+    }
+    if (searchTerm) {
+      options.searchTerm = searchTerm;
+    }
+    logService.downloadLogs(format, options);
   };
 
   return (

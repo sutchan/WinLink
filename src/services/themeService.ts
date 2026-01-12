@@ -70,11 +70,6 @@ class ThemeService {
       };
       
       mediaQuery.addEventListener('change', handleChange);
-      
-      // 清理函数
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange);
-      };
     }
   }
 
