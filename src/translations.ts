@@ -106,7 +106,7 @@ const translations: Record<'en' | 'zh', TranslationKeys> = {
     language: 'Language',
     chinese: 'Chinese',
     english: 'English',
-    winlinkMigrator: 'WinLink Migrator',
+    winlinkMigrator: 'WinLink',
     systemDrive: 'System Drive',
     targetDrive: 'Target Drive',
     selectDrive: 'Select Drive',

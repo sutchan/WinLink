@@ -266,7 +266,7 @@ const App: React.FC = (): JSX.Element => {
       {/* 标题栏 */}
       <div className="window-titlebar">
         <div className="flex items-center gap-2">
-          <h1 className="text-lg font-semibold">WinLink Migrator</h1>
+          <h1 className="text-lg font-semibold">WinLink</h1>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-1 sm:gap-2">

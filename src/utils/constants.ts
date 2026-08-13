@@ -136,8 +136,8 @@ export const mockDrives = [
 
 // 应用配置
 export const appConfig = {
-  version: '0.1.0',
-  name: 'WinLink Migrator',
+  version: '0.1.3',
+  name: 'WinLink',
   description: 'Windows 应用程序数据迁移工具',
   defaultTargetDrive: 'D:',
   defaultTargetPath: 'D:\\Apps',
