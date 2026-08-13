@@ -29,50 +29,12 @@ export const scanApplications = async (
   // 在真实环境中，这里会使用 Tauri 的文件系统 API 扫描真实应用程序
   // 目前返回模拟数据，并模拟进度
   return new Promise((resolve) => {
-    const mockApps = [
-      {
-        id: '1',
-        name: 'Steam 游戏库',
-        sourcePath: `${diskPath}\\Program Files (x86)\\Steam`,
-        size: '150 GB',
-        status: AppStatus.READY
-      },
-      {
-        id: '2',
-        name: 'Adobe Creative Cloud',
-        sourcePath: `${diskPath}\\Program Files\\Adobe`,
-        size: '80 GB',
-        status: AppStatus.READY
-      },
-      {
-        id: '3',
-        name: 'Node.js 项目',
-        sourcePath: `${diskPath}\\Users\\User\\Documents\\Projects`,
-        size: '25 GB',
-        status: AppStatus.READY
-      },
-      {
-        id: '4',
-        name: 'Visual Studio Code',
-        sourcePath: `${diskPath}\\Users\\User\\AppData\\Local\\Programs\\Microsoft VS Code`,
-        size: '10 GB',
-        status: AppStatus.READY
-      },
-      {
-        id: '5',
-        name: 'Docker 容器',
-        sourcePath: `${diskPath}\\ProgramData\\Docker`,
-        size: '45 GB',
-        status: AppStatus.READY
-      },
-      {
-        id: '6',
-        name: '照片库',
-        sourcePath: `${diskPath}\\Users\\User\\Pictures`,
-        size: '60 GB',
-        status: AppStatus.READY
-      }
-    ];
+    // 基于磁盘路径拼接模拟应用文件夹（数据来源：constants/mockAppFolders）
+    const mockApps: AppFolder[] = mockAppFolders.map((app) => ({
+      ...app,
+      sourcePath: `${diskPath}${app.sourcePath.replace(/^[A-Z]:/, '')}`,
+      status: AppStatus.READY
+    }));
 
     // 模拟扫描进度
     let progress = 0;

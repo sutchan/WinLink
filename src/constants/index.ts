@@ -1,4 +1,4 @@
-import { AppFolder, AppStatus } from '../types';
+import { AppFolder, AppStatus, DiskInfo } from '../types';
 
 // 模拟应用程序文件夹数据
 export const mockAppFolders: AppFolder[] = [
@@ -47,7 +47,7 @@ export const mockAppFolders: AppFolder[] = [
 ];
 
 // 模拟磁盘信息
-export const mockDisks = [
+export const mockDisks: DiskInfo[] = [
   {
     id: '1',
     name: '系统盘',
