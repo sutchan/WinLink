@@ -1,4 +1,4 @@
-# WinLink Migrator 项目文档
+# WinLink 项目文档
 
 ## 文档索引
 
@@ -132,8 +132,7 @@
 
 2. **模板和指南**：
    - **[文档模板](templates/)** - 功能规范、专题文档和变更提案模板
-   - **[写作指南](guidelines/)** - 文档写作指南和最佳实践
-   - **[风格指南](guidelines/style-guide.md)** - 统一的文档风格规范
+   - **[风格指南](guidelines/style-guide.md)** - 统一的文档风格规范（当前 guidelines 目录仅含此文件）
 
 3. **参考资源**：
    - [Markdown 语法指南](https://www.markdownguide.org/)

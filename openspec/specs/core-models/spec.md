@@ -2,6 +2,8 @@
 
 ## 描述
 核心数据模型定义了 WinLink Migrator 应用程序的基本数据结构和状态管理。这些类型用于表示应用程序状态、迁移步骤跟踪、应用程序文件夹数据结构和扩展数据模型，被所有功能模块使用。
+
+> 说明：下方 `TerminalLogEntry`、`DiskInfo` 等为规划中的数据模型（对应终端日志、磁盘检测功能），当前版本代码尚未落地对应实现；`AppFolder`、`MigrationConfig`、`MoveStep`、`AppStatus` 与实际 `src/types/` 一致。
 ## 需求
 ### 需求：应用程序状态管理
 系统应定义一组应用程序状态来跟踪整个迁移过程。
@@ -82,14 +84,33 @@
 
 ## 数据结构
 
-### AppStatus
+> 以下类型定义与 `src/types/index.ts` 保持一致（实际为 enum / interface）。
+
+### AppStatus（enum）
 ```typescript
-type AppStatus = 'Ready' | 'Analyzing' | 'Moving' | 'Moved' | 'Error';
+enum AppStatus {
+  READY = "准备好",
+  ANALYZING = "分析",
+  MOVING = "移动",
+  MOVED = "已移动",
+  ERROR = "错误",
+  PAUSED = "暂停",
+  VERIFYING = "验证"
+}
 ```
 
-### MoveStep
+### MoveStep（enum）
 ```typescript
-type MoveStep = 'Idle' | 'MKDIR' | 'Robocopy' | 'MKLINK' | 'Completed';
+enum MoveStep {
+  IDLE = "闲置的",
+  MKDIR = "MKDIR",
+  ROBOCOPY = "机器人复制",
+  MKLINK = "MKLINK",
+  COMPLETED = "完毕",
+  VERIFYING = "验证",
+  CLEANING = "清理",
+  DONE = "done"
+}
 ```
 
 ### AppFolder
@@ -97,29 +118,44 @@ type MoveStep = 'Idle' | 'MKDIR' | 'Robocopy' | 'MKLINK' | 'Completed';
 interface AppFolder {
   id: string;
   name: string;
-  sourcePath: string;
-  size: string;
+  sourcePath: string;        // 原路径
+  targetPath?: string;       // 目标路径
+  size: string;              // 占用空间
+  migratedSize?: string;     // 已迁移大小
   status: AppStatus;
-  safetyScore?: number;
-  aiAnalysis?: AiAnalysisResult;
-  moveStep?: MoveStep;
-  progress?: number;
-  fileTypes?: Record<string, number>;
+  moveStep?: MoveStep;       // 迁移步骤
+  progress?: number;         // 迁移进度百分比
+  safetyScore?: number;      // 安全评分 (0-100)
+  aiAnalysis?: string;       // AI 分析建议文本
+  aiAnalysisResult?: AiAnalysisResult; // AI 分析结果
+  errorMessage?: string;     // 错误信息
+  lastModified?: string;     // 最后修改时间
+  backupPath?: string;       // 备份路径
 }
 ```
 
 ### MigrationConfig
 ```typescript
 interface MigrationConfig {
-  targetDrive: string;
-  targetPath: string;
-  createJunction: boolean;
-  preservePermissions: boolean;
-  moveMethod: 'robocopy' | 'powershell';
+  overwriteExisting: boolean;
+  createBackup: boolean;
+  verifyAfterMove: boolean;
+  parallelExecution: boolean;
 }
 ```
 
-### TerminalLogEntry
+### AiAnalysisResult
+```typescript
+interface AiAnalysisResult {
+  riskLevel: 'low' | 'medium' | 'high';
+  confidence: number;
+  recommendations: string[];
+  warnings: string[];
+  safeToMove: boolean;
+}
+```
+
+### TerminalLogEntry（规划，终端功能未实现）
 ```typescript
 interface TerminalLogEntry {
   id: string;
@@ -129,7 +165,7 @@ interface TerminalLogEntry {
 }
 ```
 
-### DiskInfo
+### DiskInfo（规划，磁盘检测功能未实现）
 ```typescript
 interface DiskInfo {
   id: string;
