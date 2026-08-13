@@ -1,3 +1,5 @@
+import { logService } from './logService';
+
 type Theme = 'dark' | 'light' | 'system';
 
 class ThemeService {
@@ -23,7 +25,7 @@ class ThemeService {
       }
       this.applyTheme();
     } catch (error) {
-      console.error('加载主题设置失败:', error);
+      logService.addLog(`加载主题设置失败: ${String(error)}`, 'error');
       this.currentTheme = 'system';
       this.applyTheme();
     }
@@ -37,7 +39,7 @@ class ThemeService {
     try {
       localStorage.setItem(this.THEME_KEY, theme);
     } catch (error) {
-      console.error('保存主题设置失败:', error);
+      logService.addLog(`保存主题设置失败: ${String(error)}`, 'error');
     }
   }
 

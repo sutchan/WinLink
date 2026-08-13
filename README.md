@@ -1,6 +1,6 @@
 # WinLink
 
-[![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)](https://github.com/your-username/WinLink)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/your-username/WinLink)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 > Windows 应用程序文件夹迁移管理器 —— 将 C 盘上的应用程序文件夹迁移到其它盘（如 D 盘），并通过 Junction 符号链接保持原路径可访问，从而释放系统盘空间。

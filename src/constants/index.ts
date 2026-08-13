@@ -1,4 +1,4 @@
-import { AppFolder, AppStatus, DiskInfo } from '../types';
+import { AppFolder, AppStatus, DiskInfo, MigrationConfig } from '../types';
 
 // 模拟应用程序文件夹数据
 export const mockAppFolders: AppFolder[] = [
@@ -75,7 +75,7 @@ export const mockDisks: DiskInfo[] = [
 ];
 
 // 默认迁移配置
-export const defaultMigrationConfig = {
+export const defaultMigrationConfig: MigrationConfig = {
   overwriteExisting: false,
   createBackup: true,
   verifyAfterMove: true,

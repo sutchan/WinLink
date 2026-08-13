@@ -18,13 +18,9 @@ export const TerminalLog: React.FC<TerminalLogProps> = ({ language = 'zh' }): JS
   ]);
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
-  // 定期更新日志
+  // 订阅日志服务实时刷新，替代每秒轮询
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLogs(logService.getLogs());
-    }, 1000);
-
-    return () => clearInterval(interval);
+    return logService.subscribe(setLogs);
   }, []);
 
   // 自动滚动到底部

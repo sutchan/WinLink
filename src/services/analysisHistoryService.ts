@@ -1,4 +1,5 @@
 import { AiAnalysisResult } from '../types';
+import { logService } from './logService';
 
 interface AnalysisHistoryItem {
   folderPath: string;
@@ -26,7 +27,7 @@ class AnalysisHistoryService {
         this.history = JSON.parse(stored);
       }
     } catch (error) {
-      console.error('加载分析历史失败:', error);
+      logService.addLog(`加载分析历史失败: ${String(error)}`, 'error');
       this.history = [];
     }
   }
@@ -38,7 +39,7 @@ class AnalysisHistoryService {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.history));
     } catch (error) {
-      console.error('保存分析历史失败:', error);
+      logService.addLog(`保存分析历史失败: ${String(error)}`, 'error');
     }
   }
 

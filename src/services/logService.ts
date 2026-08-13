@@ -1,8 +1,32 @@
 import { TerminalLogEntry } from '../types';
 
+type LogListener = (logs: TerminalLogEntry[]) => void;
+
 class LogService {
   private logs: TerminalLogEntry[] = [];
   private maxLogs: number = 1000;
+  private listeners: LogListener[] = [];
+
+  /**
+   * 订阅日志变化，返回取消订阅函数
+   * @param listener 日志更新回调
+   */
+  subscribe(listener: LogListener): () => void {
+    this.listeners.push(listener);
+    // 立即推送当前日志快照
+    listener(this.getLogs());
+    return () => {
+      this.listeners = this.listeners.filter((l) => l !== listener);
+    };
+  }
+
+  /**
+   * 通知所有订阅者
+   */
+  private notify(): void {
+    const snapshot = this.getLogs();
+    this.listeners.forEach((listener) => listener(snapshot));
+  }
 
   /**
    * 添加日志条目
@@ -24,6 +48,8 @@ class LogService {
     if (this.logs.length > this.maxLogs) {
       this.logs = this.logs.slice(this.logs.length - this.maxLogs);
     }
+
+    this.notify();
 
     return logEntry;
   }
@@ -147,6 +173,7 @@ class LogService {
    */
   clearLogs(): void {
     this.logs = [];
+    this.notify();
   }
 
   /**

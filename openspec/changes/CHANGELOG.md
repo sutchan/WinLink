@@ -1,5 +1,23 @@
 # 变更日志
 
+## 版本 0.2.0 (2026-08-13)
+
+### 代码重构（消除死代码与重复，向后兼容）
+- 删除未被引用的重复实现 `src/services/diskScanService.ts` 与 `src/utils/constants.ts`
+- 删除冗余的国际化 JSON（`src/translations/en.json`、`src/translations/zh.json`）；保留实际在用的 `src/translations.ts`
+- 删除从未落地的空目录 `src/features/`
+- 合并模拟数据到单一来源 `src/constants/index.ts`：将 `diskService.scanApplications` 内部硬编码的 mock 应用列表提升为 `mockAppFolders`，并为其显式标注 `DiskInfo` / `MigrationConfig` 类型
+- 拆分 `src/App.tsx`（原 612 行）为编排层 + `src/components/parts.tsx` 子组件（TitleBar / DiskSelector / Toolbar / AppGrid / MigrationModal），主文件降至约 200 行
+- `TerminalLog` 改为订阅 `logService.subscribe()` 实时刷新，移除每秒 `setInterval` 轮询
+- `logService` 新增 `subscribe()` / `clearLogs` 通知机制
+- 清理 `App.tsx` / `themeService` / `analysisHistoryService` 中的 `console.*`，统一改用 `logService.addLog`
+- 恢复根目录 `AGENTS.md` 被误覆盖的 OpenSpec 指令块
+- 修正 `.npmrc`：移除非可移植的 `global=true` / `prefix` / 硬编码路径，恢复本地安装与 `package-lock.json`
+- 同步版本号至 package.json、README 徽章与本文档
+
+### 说明
+- 本次为向后兼容的重构，不改变外部行为与导出契约
+
 ## 版本 0.1.3 (2026-08-13)
 
 ### 文档对齐（规范与代码一致）
