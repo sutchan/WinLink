@@ -1,5 +1,5 @@
 import { AppFolder, AppStatus, DiskInfo } from '../types';
-import { mockDisks } from '../constants';
+import { mockDisks, mockAppFolders } from '../constants';
 
 /**
  * 扫描磁盘获取磁盘信息
